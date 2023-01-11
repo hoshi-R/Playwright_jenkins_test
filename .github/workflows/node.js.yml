@@ -1,16 +1,17 @@
 name: Test
-on: push
+on: push    
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - uses: microsoft/playwright-github-action@v1
-    - run: yarn
-    - run: yarn playwright test
+ test:
+   timeout-minutes: 60
+   runs-on: ubuntu-latest
+   steps:
+   - uses: actions/checkout@v2
+   - uses: actions/setup-node@v2
+     with:
+       node-version: '14.x'
+   - name: Install dependencies
+     run: yarn
+   - name: Install Playwright
+     run: npx playwright install
+   - name: Run Playwright tests
+     run: yarn playwright test
